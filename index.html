@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penghiburmu: jangan galau galau lagi deh! 💖</title>
+    <meta name="description" content="Lagi galau?? sini aku kasih tau kalo kamu itu..">
+    <meta name="keywords" content="penghiburmu, galau, sakit hati, putus cinta, cinta, zaenishi, sijamur">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="zaenishi">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Tambahkan SweetAlert -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Comic+Neue:wght@700&display=swap');
+
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFD93D;
+            --background-color: #F7FFF7;
+            --text-color: #2C3E50;
+            --font-main: 'Poppins', sans-serif;
+            --font-comic: 'Comic Neue', cursive;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 95%;
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transform: translateZ(0);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .container:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            font-family: var(--font-comic);
+            letter-spacing: 2px;
+        }
+
+        .input-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            border: 4px solid var(--secondary-color);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #ff8c8c;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        #response {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            margin-top: 2rem;
+            font-weight: bold;
+            opacity: 0;
+            font-family: var(--font-comic);
+            color: var(--accent-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+
+        .creator-info {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .creator-info:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .bubble {
+            position: fixed;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 15s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            33% { transform: translateY(-50px) rotate(180deg) scale(1.1); }
+            66% { transform: translateY(50px) rotate(-180deg) scale(0.9); }
+        }
+
+        .dark-mode {
+            background-color: #2C3E50;
+            color: #ECF0F1;
+        }
+        
+        .dark-mode .creator-info {
+        color: black;
+        }
+
+        .dark-mode .container {
+            background-color: rgba(44, 62, 80, 0.9);
+        }
+
+        .dark-mode input {
+            background-color: rgba(236, 240, 241, 0.1);
+            color: #ECF0F1;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark-mode #response {
+        color: white;
+        }
+        #response {
+        color: white;
+        text-shadow: 
+        1px 1px 0 black, 
+        -1px -1px 0 black,  
+        1px -1px 0 black,  
+        -1px 1px 0 black; /* Outline teks */
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        .animate__animated {
+            animation-duration: 0.8s;
+        }
+
+        #emoji-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .center-response-in-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px; /* Tinggi minimum kotak respons */
+            height: 100%;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    
+        .swal-popup {
+            border: none; /* Menghilangkan border */
+            border-radius: 8px; /* Menyesuaikan border-radius */
+        }
+        .swal-title {
+            display: none; /* Menyembunyikan judul */
+        }
+        .swal-text {
+            font-size: 1.2em; /* Ukuran font teks */
+            color: #333; /* Warna teks */
+            text-align: center; /* Menyelaraskan teks di tengah */
+        }
+        .swal2-timer-progress-bar {
+            height: 4px; /* Menyesuaikan tinggi bar progres */
+        }        
+    </style>
+</head>
+<body>
+    <div class="container animate__animated animate__zoomIn">
+        <h1 id="judul" class="animate__animated animate__bounce"><strong>Galau?, Ceritain Sini</strong></h1>
+        <div class="input-container">
+            <input type="text" id="problem" placeholder="Kamu galau kenapa?" autocomplete="off">
+            <button onclick="generateResponse()" class="animate__animated animate__pulse animate__infinite">Hibur Aku!</button>
+        </div>
+        <div id="response"></div>
+    </div>
+    <div class="creator-info animate__animated animate__fadeInUp">
+        Created by: zaenishi 🍄
+    </div>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌓</button>
+    <div id="emoji-rain"></div>
+
+    <script>
+        const responses = [
+            "Santai aja, semua orang pernah jelek kok.",
+            "Jangan khawatir, yang penting hati tetap baik.",
+            "Ngaca, jangan cuma liat fisik, yang penting hati.",
+            "Gak usah sok serius, yang penting kita tetap positif.",
+            "Iya deh, jangan stress, semua ada waktunya.",
+            "Uang bukan segalanya, yang penting semangat!",
+            "Gak perlu galau, setiap orang punya kelebihan.",
+            "Jelek atau enggak, yang penting percaya diri.",
+            "Ayo, tetap semangat! Semua bakal baik-baik aja.",
+            "Gak usah pusing, yang penting kamu berusaha.",
+            "Tampil apa adanya, yang penting jangan menyerah.",
+            "Jangan stress, coba liat sisi baiknya.",
+            "Tetap positif, semua ada masanya kok.",
+            "Percaya diri aja, semua pasti bisa.",
+            "Jangan terlalu serius, hidup ini harus dinikmati.",
+            "Yang penting niat baik, semua bisa diusahakan.",
+            "Tersenyum aja, setiap orang punya keunikan.",
+            "Jangan galau, semua ada jalan keluarnya.",
+            "Tetap tenang, kamu lebih dari sekadar tampilan luar.",
+            "Gak usah khawatir, kamu pasti bisa lebih baik.",
+            "Muka mungkin gak sempurna, tapi hati penting.",
+            "Ayo terus berjuang, hasilnya pasti sepadan.",
+            "Tetap semangat, yang penting usaha terus.",
+            "Jangan pernah menyerah, kamu pasti bisa.",
+            "Tiap orang punya kelebihan, fokus aja di situ.",
+            "Jangan khawatir, semua orang punya masa galau.",
+            "Tetap percaya diri, kamu punya potensi besar.",
+            "Senyum aja, semua bakal jadi lebih baik.",
+            "Yang penting semangat, bukan cuma penampilan.",
+            "Tetap berjuang, setiap hari adalah kesempatan.",
+            "Jangan terlalu fokus pada hal negatif.",
+            "Selalu ada harapan di balik setiap masalah.",
+            "Ayo, terus berusaha dan jangan menyerah.",
+            "Tampil dengan percaya diri, hasilnya akan mengikuti.",
+            "Gak perlu galau, semua orang pernah merasa begitu.",
+            "Fokus pada hal-hal yang membuat kamu bahagia.",
+            "Jangan biarkan penampilan membuat kamu merasa down.",
+            "Tetap berusaha, hasil baik pasti akan datang.",
+            "Hidup ini penuh dengan kesempatan, ambil aja.",
+            "Selalu ada jalan keluar dari setiap masalah.",
+            "Tetap optimis, masa depan pasti cerah.",
+            "Gak usah khawatir, kamu lebih dari sekadar penampilan.",
+            "Tiap orang punya kelebihan, cari aja di diri sendiri.",
+            "Ayo, terus maju dan jangan mundur.",
+            "Percaya aja, kamu pasti bisa menghadapi semua ini.",
+            "Senyum aja, setiap hari adalah peluang baru.",
+            "Tampil apa adanya, yang penting hati tetap positif.",
+            "Jangan biarkan hal-hal kecil membuatmu merasa buruk.",
+            "Tetap semangat, kamu pasti bisa lebih baik.",
+            "Hidup ini terlalu singkat untuk galau terus.",
+            "Ayo, terus berjuang dan raih impianmu.",
+            "Fokus pada hal-hal positif di hidupmu.",
+            "Jangan biarkan penampilanmu menurunkan semangat.",
+            "Selalu ada cara untuk merasa lebih baik.",
+            "Tetap percaya diri, kamu lebih dari yang kamu kira.",
+            "Jangan biarkan hal-hal kecil membuatmu down.",
+            "Selalu ada harapan, meski dalam keadaan sulit.",
+            "Tingkatkan semangat, hidup ini penuh dengan peluang.",
+            "Senyum aja, semua akan terasa lebih ringan.",
+            "Jangan terlalu memikirkan penampilan, yang penting hati.",
+            "Setiap hari adalah kesempatan baru untuk bangkit.",
+            "Tetap semangat, apapun yang terjadi.",
+            "Jangan biarkan penampilan menentukan nilai dirimu.",
+            "Tiap orang punya keunikan, hargai itu.",
+            "Gak usah terlalu khawatir, semua ada masanya.",
+            "Ayo terus berusaha, hasil baik pasti menyusul.",
+            "Tetap optimis, kamu punya kekuatan besar.",
+            "Senyum aja, semuanya pasti jadi lebih baik.",
+            "Jangan biarkan penampilan membuatmu merasa rendah.",
+            "Percaya diri aja, semua masalah bisa diatasi.",
+            "Jangan terlalu fokus pada hal-hal negatif.",
+            "Selalu ada solusi untuk setiap masalah.",
+            "Tetap semangat, masa depan pasti cerah.",
+            "Gak usah terlalu khawatir, kamu pasti bisa.",
+            "Tiap orang punya tantangan, tetap berjuang.",
+            "Senyum aja, hidup ini penuh dengan kesempatan.",
+            "Fokus pada hal-hal positif dan terus maju.",
+            "Jangan biarkan hal-hal kecil membuatmu down.",
+            "Selalu ada harapan, meski dalam kesulitan.",
+            "Ayo, tetap semangat dan terus berjuang.",
+            "Percaya diri aja, semua akan terasa lebih mudah.",
+            "Jangan biarkan penampilan menurunkan semangatmu.",
+            "Tiap hari adalah kesempatan baru untuk berkembang.",
+            "Selalu ada cara untuk merasa lebih baik.",
+            "Tetap positif, masa depan pasti lebih baik.",
+            "Senyum aja, semuanya bakal lebih cerah.",
+            "Jangan khawatir, kamu pasti bisa menghadapi semuanya.",
+            "Fokus pada hal-hal yang membuatmu bahagia.",
+            "Ayo terus maju dan jangan pernah menyerah."
+        ];
+
+        
+        gsap.registerPlugin(TextPlugin);
+
+        function generateResponse() {
+            const problem = document.getElementById('problem').value.trim();
+            const responseElement = document.getElementById('response');
+            const judulElement = document.getElementById('judul');
+            const inputContainer = document.querySelector('.input-container');
+            const h1 = document.querySelector('h1');
+            const creatorInfo = document.querySelector('.creator-info');
+
+            if (problem === '') {
+                showToast('Eh, isi dulu dong masalah lu!');
+                return;
+            }
+
+            inputContainer.classList.add('hidden');
+            judulElement.innerText = "yaa gimana ya..."
+            judulElement.classList.add('judul')
+            responseElement.classList.add('center-response-in-container');
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            
+            gsap.to(responseElement, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                text: randomResponse,
+                fontSize: "2em",
+                ease: "back.out(1.7)"
+            });
+
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            emoticonRain();
+        }
+
+        function createBubbles() {
+            const bubbleCount = 20;
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                const size = Math.random() * 100 + 50;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}vw`;
+                bubble.style.top = `${Math.random() * 100}vh`;
+                bubble.style.animationDelay = `${Math.random() * 15}s`;
+                document.body.appendChild(bubble);
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        function showToast(message) {
+            Swal.fire({
+                icon: 'info',
+                title: ' ',
+                text: message,
+                showConfirmButton: false,
+                timer: 3000, // Durasi tampil alert
+                timerProgressBar: true,
+                background: 'white', // Menghilangkan background
+                color: '#333', // Warna teks
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    text: 'swal-text'
+                },
+                didOpen: () => {
+                    Swal.getHtmlContainer().querySelector('.swal2-timer-progress-bar').style.backgroundColor = '#ff6b6b';
+                }
+            });
+        }
+
+
+
+        function emoticonRain() {
+            const emojis = ['💖', '🔥', '🌟', '❤️', '🌈', '💪', '✨', '🌺'];
+
+            const rainContainer = document.getElementById('emoji-rain');
+            rainContainer.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                const emoji = document.createElement('div');
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.position = 'absolute';
+                emoji.style.left = `${Math.random() * 100}vw`;
+                emoji.style.top = '-50px';
+                emoji.style.fontSize = `${Math.random() * 30 + 20}px`;
+                emoji.style.opacity = Math.random() * 0.5 + 0.5;
+                rainContainer.appendChild(emoji);
+                gsap.to(emoji, {
+                    y: '120vh',
+                    rotation: Math.random() * 360,
+                    duration: Math.random() * 3 + 2,
+                    ease: 'none',
+                    onComplete: () => rainContainer.removeChild(emoji)
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createBubbles();
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.to('.bubble', {
+                y: '100vh',
+                duration: 30,
+                ease: 'none',
+                stagger: 0.5,
+                repeat: -1,
+                yoyo: true
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            gsap.to('.container', {
+                width: window.innerWidth < 600 ? '95%' : '800px',
+                duration: 0.5
+            });
+        });
+    </script>
+</body>
+</html>
